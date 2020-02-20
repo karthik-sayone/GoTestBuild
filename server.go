@@ -38,7 +38,8 @@ func copyAndCapture(w io.Writer, r io.Reader) ([]byte, error) {
 func buildHandler(w http.ResponseWriter, r *http.Request) {
 	projectName := r.FormValue("projectName")
 	bundleid := r.FormValue("bundleId")
-	commandString := "bash_build -n " + projectName + " -b " + bundleid
+	url := r.FormValue("url")
+	commandString := "bash_build -n " + projectName + " -b " + bundleid + " -u " + url
 	cmd := exec.Command("/bin/bash", "-c", commandString)
 
 	var stdout, stderr []byte
