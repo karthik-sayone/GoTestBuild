@@ -10,6 +10,8 @@ import (
 	"sync"
 )
 
+const downloadPath = "./data"
+
 var templates = template.Must(template.ParseFiles(
 	"tmpl/home.html"))
 
@@ -72,6 +74,8 @@ func buildHandler(w http.ResponseWriter, r *http.Request) {
 
 	outStr, errStr := string(stdout), string(stderr)
 	fmt.Printf("\nout:\n%s\nerr:\n%s\n", outStr, errStr)
+
+	http.Redirect(w, r, "/download/"+projectName+"_debug.apk", http.StatusFound)
 }
 
 func homeRouteHandler(w http.ResponseWriter, r *http.Request) {
@@ -82,6 +86,10 @@ func homeRouteHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+
+	fs := http.FileServer(http.Dir(downloadPath))
+
+	http.Handle("/download/", http.StripPrefix("/files", fs))
 	http.HandleFunc("/", homeRouteHandler)
 	http.HandleFunc("/build/", buildHandler)
 	http.ListenAndServe(":8080", nil)
