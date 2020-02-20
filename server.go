@@ -89,7 +89,7 @@ func main() {
 
 	fs := http.FileServer(http.Dir(downloadPath))
 
-	http.Handle("/download/", http.StripPrefix("/files", fs))
+	http.Handle("/download/", http.StripPrefix("/download", fs))
 	http.HandleFunc("/", homeRouteHandler)
 	http.HandleFunc("/build/", buildHandler)
 	http.ListenAndServe(":8080", nil)
