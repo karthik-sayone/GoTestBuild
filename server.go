@@ -39,7 +39,7 @@ func buildHandler(w http.ResponseWriter, r *http.Request) {
 	projectName := r.FormValue("projectName")
 	bundleid := r.FormValue("bundleId")
 	url := r.FormValue("url")
-	commandString := "bash_build -n " + projectName + " -b " + bundleid + " -u " + url
+	commandString := "web2app_build_bash -n " + projectName + " -b " + bundleid + " -u " + url
 	cmd := exec.Command("/bin/bash", "-c", commandString)
 
 	var stdout, stderr []byte
